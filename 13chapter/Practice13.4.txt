@@ -1,1 +1,42 @@
-13.4-1 在执行RB-DELETE-FIXUP以后，证明树根一定是黑色的
+13.4-1 在执行RB-DELETE-FIXUP以后，证明树根一定是黑色的。
+在进行RB-DELETE-FIXUP时，在一次循环中的所有情况中，X最多沿树上升一层，循环结束后均会检测x.color及x是否等于T.root，当x=T.root时，跳出循环，将其设为黑色，因此不可能出现将T.root设为黑色的情况。所以树根一定是黑色的。
+
+13.4-2 在RB-DELETE中，如果x和x.p都是红色的，证明可以通过调用RB-DELETE-FIXUP(T,x)来恢复性质4。
+if(x = x.p.left)
+{
+	z = x.p.right.right;
+	RIGHT-ROTATE(T,x.p);
+	x.p.colpr = black;
+	x.p.p.color = red;
+	RB-DELETE-FIXUP(T,z);
+}
+else {
+	z = x.p.right.right;
+	LEFT-ROTATE(T,x.p);
+	x.p.colpr = black;
+	x.p.p.color = red;
+	RB-DELETE-FIXUP(T,z)
+}
+可以通过旋转+变色使性质4破坏变成黑高破坏。
+
+13.4-3 将关键字41,38,31,12,19,8连续插入一棵初始的空树中，从而得到一棵红黑树。请给出连续删除8,12,19,31,38,41后的红黑树。
+略
+
+13.4-4 在RB-DELETE-FIXUP代码的哪些行，可能会检查或修改哨兵T.nil。
+第13行：w.left.color = BLACK
+第17行：w.color = x.p.color
+第19行：w.right.color = BLACK
+这几行会先检查这些元素是否存在，然后将其赋值。
+
+13.4-5略
+
+13.4-6 在case1开始前，x.p必须是黑色的。
+case1开始前，假设w.color = red，因此w.p必须是黑色的，w.p == x.p,因此x.p必定为黑色。
+
+13.4-7 假设用RB-INSERT将一个结点x插入一颗红黑树，紧接着又用RB-DELETE将其删除。结果的红黑树是否与初始的红黑树一样
+在某些情况下不一样，在插入一个结点时，x必定为叶结点且为红色，因此RB-DELETE并不会改变树形。真正改变树形发生在RB-INSERT时，因此只要RB-INSERT导致树形变化，均不会再恢复至原来的树形。
+
+
+
+
+	
