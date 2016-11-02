@@ -51,4 +51,142 @@ e.说明如何利用红黑树来保证每次插入或删除最坏情况的运行时间和空间为O(lgn)。
 由13.1证得 bh(T)<=lg(n+1)
 因此T（n） = O(lgn)，而空间需求相同，为O（lgn）
 
-	
+13-2 红黑树的链接操作
+a. 给定一棵红黑树，其黑高被存放在新属性T.bh中。证明：在不需要树中结点的额外存储空间和不增加渐进运行时间的前提下，RB-INSERT和RB-DELETE可以维护这个属性。证明当沿T下降时，可以对每个被访问的结点在O（1）时间内确定其黑高
+在RB-INSERT-FIXUP中，只需在最后T.root.color = BLACK之前加上代码：
+if T.root.color == red 
+	T.bh = T.bh +1
+在RB-DELETE-FIXUP中，只需将case2 中在x = x.p 之后加上代码：
+if x == T.root
+	T.bh = T.bh -1
+该过程不需额外空间，且在O（1）时间内完成
+
+当沿T下降时，可用count记住该过程中所遇到的黑结点个数，其黑高即为：bh（x）= T.bh-count+1,时间为O（1）。
+要求实现操作RB-JOIN(T1,X,T2),它销毁T1和T2并返回一棵红黑树T = T1∪{x}∪T2
+伪代码如下:
+TB-JOIN(T1,X,T2)
+{
+	T.root = X
+	X.left = T1.root
+	X.right  =T2.root
+	while(T1.bh > T2.bh)
+	{
+	 	z = X.right;
+		RB-DELETE-FIXUP(T,X) //一次可以使T2.bh +1或T1.bh-1
+ 		X =T.root
+	}
+//当T1.bh<T2.bh的代码类似，略
+	T.root = black
+}
+			
+
+b.假设T1.bh>=T2.bh。试描述一个O（lgn）时间的算法，使之能从黑高为T2.bh的结点中选出具有最大关键字T1中的黑结点Y。
+ find(T2.bh)
+{
+	X = max(T2.root)
+	z = T.root
+	bh = T.bh
+	if(bh > T2.bh )
+	{
+		Y = z.right
+		bh =bh-1;
+	}
+	if(X==Y)
+	{
+		return 0;
+	}
+	else return Y;
+} 	
+
+c.设Ty是以y为根节点的子树，试说明如何在不破坏二叉搜索树性质的前提下，在O(1)的时间内用Ty∪{x}∪T2来取代Ty
+按照题意，y应该是来自于上题，因此伪代码如下：
+X.left = y
+X.right =T2.root
+y.p.right = X;
+
+d.要保持红黑性质1,3,5应将X着成什么颜色？试说明如何在O（lgn）时间内维护性质2和性质4
+略
+
+e.论证使用(b)部分的假设是不失一般性的，并描述当T1.bh <= T2.bh时出现的对称情况。
+伪代码与b类似，略
+
+f.证明：RB-JOIN的运行时间是O（lgn）
+在前面分析过的RB-DELETE-FIXUP过程中可以得知，其修复过程会在兄弟结点w和w.left,w.right中寻找可以共享的黑结点，如果这三个结点中存在红色结点，则调出，结果会使本子树黑高+1，否则若这三个结点全为黑色，则设w.color = red，使其兄弟子树bh-1,而每次循环中，均将需要维护的子树根结点设为T.root.right/left，RB-DELETE-FIXUP中，不能向上循环，运行时间为O（1），因此，TB-JOIN(T1,X,T2)每次循环运行时间均为O（1），循环次数为|T1.bh - T2.bh|为O（lgn），因此T（n） =O（lgn）。
+
+13-3 AVL树是一种高度平衡的二叉搜索树：对于每一个结点X，其左子树和右子树高度最多差1。要实现一棵AVL树，需要在每个结点内维护一个属性，X.h为结点X的高度。
+a.证明：一棵有n个结点的AVL树高度为O（lgn）
+假设一棵AVL树Tn，当其高度为Hn时，其结点数量最少为N（Hn）
+则T(H(n+1))为另一棵AVL树，令T(n+1).left = T(n)，结点数最少为N（H（n+1））
+则其T（n+1）的右子树高度最小为H（n-1），结点数最少为N（H（n-1））
+因此：N（H(n+1)） = N(H(n))+N(H(n-1))+1
+当 H1 = 0 时，N0 = 1
+   H2 = 1 时，N1 = 2
+形成类似于斐波那契数列的结构:
+根据归纳得出：N(n) = F（n+3）-1（F（n）为斐波那契数列）
+ 
+b.要在一棵AVL树中插入一个结点，首先以二叉搜索树的顺序将该结点放在适当的位置，此时这棵树可能就不再是高度平衡的，即高度相差可能会到2。描述一个过程BALANCE（X）解决这个问题
+旋转会导致某一子树高度-1，另一子树高度+1
+BALANCE（X）//X为子树树根
+{
+	if(X.left.h >Y.left.h)
+		RIGHT-RATOTE(X)
+	LEFT-RATOTE(X)
+}
+
+c.利用b.来描述递归过程AVL-INSERT(X,z)
+AVL-INSERT(X,z)
+{
+	y = z.p.p
+	while(y != T.nil)
+	{
+		if(|y.left.h - y.right.h|==2)
+		{	
+			BALACNE(y);
+			break;
+		}
+	y = y.p
+	}
+}
+d.证明：在一棵n个结点的AVL树上AVL-INSERT操作花费O（lgn）时间，且执行O（1）次旋转
+每进行一次插入操作，最多只需将该子树整体旋转一次，即可使其高度-1，使整棵树达到高度平衡，因此只执行O(1)次旋转，循环沿从Z到树根的简单路径运行，最多运h-1次，因此操作花费O（lgn）时间。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
