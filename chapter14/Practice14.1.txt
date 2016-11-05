@@ -1,10 +1,10 @@
-14.1-1 ����ͼ14-1�ĺ����T��˵��ִ��OS-SELECT(T.root,10)�Ĺ��̡�
-��
+14.1-1 对于图14-1的红黑树T，说明执行OS-SELECT(T.root,10)的过程。
+略
 
-14.1-2 ����ͼ14-1�ĺ����T�͹ؼ���x.keyΪ35�Ľ��x��˵��ִ��OS-RANK(T,x)
-��
+14.1-2 对于图14-1的红黑树T和关键字x.key为35的结点x，说明执行OS-RANK(T,x)
+略
 
-14.1-3 д��OS-SELECT�ķǵݹ�汾��
+14.1-3 写出OS-SELECT的非递归版本。
 OS-SELECT(x,i)
 {
 	r = x.left.size+1;
@@ -24,20 +24,20 @@ OS-SELECT(x,i)
 	}
 }
 
-14.1-4 д��һ���ݹ����OS-KEY-RANK��T��k������һ��˳��ͳ����T��һ���ؼ���k��Ϊ���룬Ҫ�󷵻�k����T��ʾ�Ķ�̬�����е��ȣ�����ؼ��ֶ�����ͬ��
+14.1-4 写出一个递归过程OS-KEY-RANK（T，k），以一棵顺序统计树T和一个关键字k作为输入，要求返回k在由T表示的动态集合中的秩，假设关键字都不相同。
 OS-KEY-RANK(T.root,k)
 {
 	x = T.root;
 	if(k == x.key)
-		return OS-RANK��T,x��;
+		return OS-RANK（T,x）;
 	else if(k<x.key)
 		OS-KEY-RANK(x.left,k);
-	else OS-KEY-RANK��x.right,k��;
+	else OS-KEY-RANK（x.right,k）;
 }
 
-14.1-5 ����n��Ԫ�ص�˳��ͳ�����е�һ��Ԫ��x��һ����Ȼ��i,�����O��lgn����ʱ����ȷ��x�ڸ����������еĵ�i����̡�
-��һ�ַ���������OS-RANK(T,x),ȷ��x����j���ٵ���OS-SELECT(T.root,i+j),ֻ��ҪO��lgn����ʱ��
-�ڶ��ַ����������£�
+14.1-5 给定n个元素的顺序统计树中的一个元素x和一个自然数i,如何在O（lgn）的时间内确定x在该树线性序中的第i个后继。
+第一种方案：调用OS-RANK(T,x),确定x的秩j，再调用OS-SELECT(T.root,i+j),只需要O（lgn）的时间
+第二种方案代码如下：
 OS-FIND(x,i)
 {	
 	if(i==0)
@@ -54,14 +54,14 @@ OS-FIND(x,i)
 		OS-FIND(x.p,i-r-1);	
 	}	
 }
-�����������˷���һ�е��ص�ѭ�����֡�
+方案二减少了方案一中的重叠循环部分。
 
-14.1-6 ��0S-SELECT��OS-RANK�У�ע������ʲôʱ�����ý���size���Զ���Ϊ�˼���һ���ȣ���Ӧ�ģ�����ÿ����㶼���������Լ�Ϊ���е��ȣ���˵���ڲ����ɾ��ʱ�������ά������ȡ�
-��������У����д���X.key�Ľ�㣬���Ⱦ�Ҫ��1������ʱ��ΪO��n��������������������ʱ���ᵼ�¦£�����λ�ÿ��飩�����ڵ����н����+1��-1����ˣ��ܲ���ʱ��ΪO��n��
-��ɾ�������У�ͬ�ϡ�
+14.1-6 在0S-SELECT或OS-RANK中，注意无论什么时候引用结点的size属性都是为了计算一个秩，相应的，假设每个结点都储存它在自己为根中的秩，试说明在插入和删除时，该如何维护这个秩。
+插入过程中，所有大于X.key的结点，其秩均要加1，操作时间为O（n），另外右旋或者左旋时，会导致β（具体位置看书）子树内的所有结点秩+1或-1；因此，总操作时间为O（n）
+在删除过程中，同上。
 
-14.1-7 ˵�������O��nlgn��ʱ���ڣ�����˳��ͳ�����Դ�СΪn�������е�����Խ��м�����
-α�������£�
+14.1-7 说明如何在O（nlgn）时间内，利用顺序统计树对大小为n的数组中的逆序对进行计数。
+伪代码如下：
 count = 0;
 INVERTION-PAIR-COUNT(T.root)
 {
@@ -76,12 +76,12 @@ INVERTION-PAIR-COUNT(T.root)
 	return count;
 }
 
-whileѭ��O��lgn���Σ�ÿ�ζ�һ����������������ΪO��n�����ϲ�����ʱ��ΪO��nlgn��.
+while循环O（lgn）次，每次对一棵子树计数，次数为O（n），合并运行时间为O（nlgn）.
 
-14.1-8 ����һ��Բ�ϵ�n���ң�ÿ���Ҷ�����˵������塣�����һ������O��nlgn��ʱ����ȷ��Բ���ཻ�Ҷ������㷨��
-��Բ��һ���п�����ֱ�γ�һ��ֱ�ߣ�ÿһ������������������������ÿ���ҵ����Կ����ɣ�Ix��Ij������ʾ��������I��J�ཻ��������ΪIx<Jx<Iy<Jy��
-�ڴ˻����ϣ���ÿ������Ϊһ����㣬ÿ�������I.key =Ix��I.priority = Ij,�����Ӷ�������I.h����ý��߶ȣ��Դ˹���������
-������֤����֪�������ؼ��ֺ����ȼ��Ľ�㼯���γ�Ψһ����������ɸ�������������ʱ��Ϊ0��nlgn��,�����ʱ��ΪO��n^2�������м����ཻ�ҶԵķ������������ƣ�ֻ�����ĳ�����˳��ԡ���α�������£�
+14.1-8 现有一个圆上的n条弦，每条弦都由其端点来定义。请给出一个能在O（nlgn）时间内确定圆内相交弦对数的算法。
+将圆以一点切开，拉直形成一条直线，每一个弦由两点间的曲线相连，则每条弦的属性可以由（Ix，Ij）来表示，两条弦I和J相交的条件即为Ix<Jx<Iy<Jy。
+在此基础上，将每条弦视为一个结点，每个结点中I.key =Ix，I.priority = Ij,并增加额外属性I.h保存该结点高度，以此构造红黑树。
+由上章证明可知，给定关键字和优先级的结点集合形成唯一红黑树。构成该树的期望运行时间为0（nlgn）,最坏运行时间为O（n^2），进行计算相交弦对的方法与上题类似，只不过改成了求顺序对。其伪代码如下：
 count = 0;
 INTERSECTING-CHORD-COUNT(T.root)
 {
@@ -95,7 +95,7 @@ INTERSECTING-CHORD-COUNT(T.root)
 	}
 	return count;
 }
-����ʱ��ͬ���⣬ΪO��nlgn������ˣ���������ʱ��Ϊ0��nlgn��,�����ʱ��ΪO��n^2������n���Ҷ�Ϊֱ������
+运行时间同上题，为O（nlgn），因此，期望运行时间为O（nlgn）,最坏运行时间为O（n^2）（即n条弦都为直径）。
 		
 
 
