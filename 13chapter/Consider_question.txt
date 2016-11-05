@@ -151,6 +151,88 @@ d.证明：在一棵n个结点的AVL树上AVL-INSERT操作花费O（lgn）时间，且执行O（1）次旋转
 每进行一次插入操作，最多只需将该子树整体旋转一次，即可使其高度-1，使整棵树达到高度平衡，因此只执行O(1)次旋转，循环沿从Z到树根的简单路径运行，最多运h-1次，因此操作花费O（lgn）时间。
 
 
+13.4 treap树，即将二叉搜索树与红黑树性质相结合，形成Treap树，其性质为：if v = u.left , v.key<u.key ; if v = u.right, v.key> u.key;if v = u.child,v.priority>u.priority.
+a. 证明：给定一个已有相应关键字和优先级（互异）的结点X1,X2,...Xn组成的集合，存在唯一的一棵treap树与这些结点相关联。
+假设给定响应关键字和优先级的结点集合<X1,X2....Xn>可以形成两棵不同的treap：
+即在整棵树中，至少存在某结点Xi，在两棵树treap树中，其位置可以发生变化。
+因此，存在另一结点Xj，其与Xi的相对位置可以发生变化。
+对于给定的关键字属性，可以确定Xi和Xj的左右相互关系，即若Xi.key>Xj.key,Xi在Xj的右边，反则反之，
+给定优先级属性，可以确定Xi和Xj的上下相互关系，即若Xi.priority>Xj.priority,Xi在Xj的下方，反则反之。
+因此给定两节点Xi和Xj，其相对位置已经固定，不能发生变化，因此不存在这样的结点i，与假设矛盾。
+因此，给定一个已有相应关键字和优先级（互异）的结点X1,X2,...Xn组成的集合，存在唯一的一棵treap树与这些结点相关联。
+
+b.证明：treap树的期望高度是θ（lgn）
+treap树主要起作用的情况在于无法得到所有元素时，不能从集合<X1,X2...Xn>中随机选取一个元素，不能达到随机构建二叉搜索树的目的。
+但是将这些结点赋予一个新属性优先级后，得到属性值集合<P1，P2...Pn>，并不断从中不放回的随机选取属性值赋予给结点X，当属性全部随机发放后，得到唯一属性先后发放顺序<...Pi,Pj..>
+由a中证明得知，当关键字的值与优先级均确定时，得到唯一二叉搜索树，因此，随机发放的属性存在n!种排序情况，可以形成最多n!种树形，与随机构建二叉搜索树的树形一一对应。
+此时，对于具有固定排序的关键字集合<X1,X2...Xn>，可以随机形成n！种树形，达到了随机构建二叉搜索树的要求。由二叉搜索树一章证明结果可知随机构建二叉搜索树期望高度为θ（lgn）。
+
+c.解释TREAP-INSERT是如何工作的。说明思想并给出其伪代码。
+TREAP-INSERT先直接依据二叉搜索树TREE-INSERT(T,z)，将结点z插入至叶结点处，再维护最小堆性质向上循环。
+伪代码如下：
+TREAP-INSERT(T,z)
+{
+	TREE-INSERT(T,z)；
+	while(z != T.root)
+	{
+		if(z == z.p.right)
+		{
+			if(z.priority < z.p.priority)
+				LEFT-RATOTE(z.p);
+			else break;
+		}
+		if(z == z.p.left)
+		{
+			if(z.priority < z.p.priority)
+				RIGHT-RATOTE(Z);
+			else break;
+		}
+	}
+}
+
+d.证明：TREAP-INSERT的期望运行时间是θ（lgn）
+在上述伪代码中，TREE-INSERT(T，z)花费时间为θ（h）,while循环中，每次旋转z的高度会+1，最多旋转h次，花费时间O(h),一次插入合计操作花费θ（h），而h的期望时间为θ（lgn），因此TREAP-INSERT的期望运行时间是θ（lgn）。
+
+e.考虑利用TREAP-INSERT插入结点x后的treapT，设C为x左子树的右脊柱的长度，D为x右子树的左脊柱的长度。证明：在插入x所执行的旋转总次数等于C+D。
+证明：
+每经过一次右旋，X曾经的左结点会变成x.right.left,并且x右子树的左脊柱的长度只会在右旋时伸长
+同样，每经过一次左旋，X曾经的右结点会变成x.left.right,并且x左子树的右脊柱的长度只会在右旋时伸长。
+只需观察即可得到旋转总次数等于C+D+1||2（1或2，依据有几个子树）
+
+f.证明：Xik = 1当且仅当y.priority>x.priority, y.key<x.key,且对于每个满足y.key<z.key<x.key的z，有y.priority<z.priority。
+Xik = 1 时，y在x的左子树的右脊柱中，即y在x的左下方，依据a中论述，必然存在y.priority>x.priority, y.key<x.key。
+同样依据a中论述，满足y.key<z.key<x.key时，z仅能存在于由y、x左右夹住的空间内，而y又处于右脊柱内，因此从空间关系来看，必然存在y.priority<z.priority。
+
+g.证明：略
+
+证明题全略。。。。。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
