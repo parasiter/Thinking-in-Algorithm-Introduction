@@ -1,0 +1,16 @@
+本章较短：主要内容在于选择合适的基础结构，添加属性，对各种操作进行维护，以完成更复杂的功能
+区间树SEARCH的思考：
+区间树的SEARCH主要目的在于找到一个重叠区域即可，并非找到所有重叠区，关键思想在于，始终向更为保险的子树查找，如果选择的更保险的子树中都没有，那么就肯定不存在重叠区。
+树中选择的更安全的方向为left子树，同样，我们可以对其进行镜像复制，使得更保险的方向为right子树，修改过程如下：
+X.int 保持不变，以X.MIN替代之前的X.MAX，其保存本子树中区间的最小单位，并以X.int.high作为关键字进行红黑树构建，此时INTERVAL-SEARCH过程如下：
+INTERVAL-SEARCH(T,i)
+{
+	x= T.root;
+	while x!= T.nil and i dose not overlap x.int
+	{
+		if x.right != T.nil and x.right.min <= i.high
+			x = x.right;
+		else x = x.left ;
+	}
+	return x;
+}

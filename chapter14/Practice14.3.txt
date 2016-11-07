@@ -1,0 +1,134 @@
+14.3-1 写出作用于区间树的结且在O（1）时间内更新max属性的过程LEFT-ROTATE的伪代码
+LEFT-RPTATE(x)
+{
+	y = x.right;
+	x.right = y.left;
+	x.right.p = x;
+	y.p = x.p
+        if(x = x.p.right)
+		y.p.right = y;
+	y.p.left = y;
+ 	y.left = x;
+	x.p = y;
+	y.max = x.max;
+  	x.max = MAX（x.left.max,x.right.max,x.int.high）;
+}
+
+14.3-2 改写INTERVAL-SEARCH的代码，使得当所有区间都是开区间时，它也能正确工作。
+INTERVAL-SERCH(T,i)
+{
+	while(x != T.nil && i does not overlap x.int)
+	{
+		if(x.left !=T.nil&& x.left.max >i.low)
+			x = x.left;
+		else x = x.right;
+	}
+	return x;
+}
+
+14.3-3 请给出一个有效的算法，对一个给定的区间i，返回一个与i重叠且具有最小低端点的区间；或者当这样的区间不存在时返回T.nil。
+INTERVAL-SERCH-MINMUM(T,i)
+{
+	k = T.nil;
+	k.key = -∞；
+	while(x != T.nil)
+	{
+		if(i overlap x.int)
+			if(k.key <= x.key)
+				k = x;
+		if(x.left !=T.nil&& x.left.max >= i.low)
+			x = x.left;
+		else x = x.right;
+	}
+	return k;
+}
+
+14.3-4 给定一棵区间树T和一个区间i，请描述如何在O（min(n,klgn)）时间内列出T中所有与i重叠的区间，其中k输出区间数。
+伪代码如下：
+INTERVAL-SERCH-ALL(T.root，i)
+{
+	x = T.root;
+	if(x overlap with i)
+	{
+		print x.int;
+		if(x.left.max < i.low)
+     			;
+		else INTERVAL-SERCH-ALL(x.left,i）;
+		if(x.right.key >i.high)
+			;
+		else INTERVAL-SERCH-ALL(x.right,i);
+	}
+}
+最坏情况下，INTERVAL-SEARCH-ALL遍历完了树中所有元素，此时运行时间为O（n）;
+否则，期望时间下，每次递归，均有一定概率导致递归终止。
+假设每次递归导致树形一部分丢失的概率为p,期望时间下，T（n）= T[(1-p)n] +O(1);
+得出T（n）= Θ（lgn）。
+暂时不懂为什么运行时间为O（min（n,lgn）） 
+
+14.3-5 对区间树T和一个区间i,请修改有关区间树的过程来支持新的操作INTERVAL-SEARCH-EXACTLY(T，i),它返回一个指向T中结点x的指针，使得x.int.low=i.low且x.int.high=i.high;或者，如果T不包含这样的区间时返回T.nil,所有的操作对于包含n个结点的区间树的运行时间都应为O（lgn）。
+INTERVAL-SEACH-EXACT(T,i)
+{
+	x = T.root;
+	while(x!=T.nil)
+	{
+		if(x.key == i.low)
+			if(x.int.high = i.high)
+				return x;
+		else{
+			if(x.key>i.low)
+				x = x.left;
+			else x= x.right;
+		}
+	return x;
+}
+		
+14.3-6 说明如何来维护一个支持操作MIN-GAP的一些树的动态集Q，使得该操作能给出Q中两个最接近的数之间的差值。例如，Q = {1,5,9,15,18,22}，则MIN-GAP返回18-15 = 3，因为15和18是两个最接近的数。要使得操作INSERT,DELETE,SEARCH和MIN-GAP尽可能高效，并分析它们的运行时间。
+选取二叉树为基础结构。
+给每个结点增加属性x.difference = x.successor.key - x.key。
+并且将树中最大元素的属性置为nil;
+可知，每插入一个元素z，需要对z.difference、z.precuror.diffence属性进行维护，运行时间为O（lgn），并且以该属性为优先级，以最小堆的的性质对这z和z.precuror进行维护，维护时间同样为O(lgn)。删除操作与此类似，运行时间为O（lgn）。
+综合上述，添加该属性并进行相应的维护，并不会对INSERT,DELETE,SERCH操作造成影响，并且MIN-GAP操作只花费O(1)时间，为T.root。
+
+14.3-7 VLSI数据库通常将一块集成电路表示成一组矩形，假设每个矩形的边都平行于X轴或Y轴，这样可以用矩形的最小和最大的X轴和Y轴坐标来表示一个矩形。请给出一个O(nlgn)时间的算法，来确定n个这种表示的矩形集合中是否存在两个重叠的矩形。你的算法不一定要输出所有重叠的矩形，但对于一个矩形完全覆盖另一个，一定要给出正确的判断。（提示：移动一条扫描线，穿过所有的矩形）
+以一个矩形作为结点，将两个端点属性（xi,yi）,（xj,yj）同等替换为两个区间属性intx=[xi,xj],intj=[yi,yj],以xi为关键字，进行区间树构建。（intj为额外属性）
+对于每一个矩形结点Z，查找重叠算法的伪代码如下：
+rectangle-SEARCH(T)
+{
+	array[n]；    //假设已经保存了所有矩阵的端点的
+	for m = 1 to n
+	{
+		//一次对一个矩阵进行查找
+		Z = array[m]
+		while(K!= T.nil)
+		{
+			K = INTERVAL-SEARCH(T，Z.xi); //查找T中是否存在与Z.xi重叠的区间
+			if(K.intj contain Z.yi ||K.intj contain Z.yj)
+				return TRUE; //产生重叠；
+			else INTERVAL-SEARCH(K，Z.xi);//如果不存在，继续以K为子树查找
+
+			L = INTERVAL-SEARCH(T，Z.xj); //查找T中是否存在与Z.xj重叠的区间
+			if(L.intj contain Z.yi ||L.intj contain Z.yj)
+				return TRUE; //产生重叠；
+			else INTERVAL-SEARCH(L，Z.xj);//如果不存在，继续以L为子树查找
+		}
+	}
+}
+上述代码中，最外层循环进行n次，内层循环查找到一个重叠矩阵为止，最坏情况下进行了2次完整的INTERVAL-SEARCH查找，该内层循环运行时间为O（lgn）
+因此，综合上述，查找重叠算法总运行时间为O（nlgn）。
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

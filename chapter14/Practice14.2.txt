@@ -1,0 +1,123 @@
+14.2-1 通过为结点增加指针的方式，试说明如何在扩张的顺序统计树上，支持每一种动态集合查询操作MINIMUM,MAXIMUM,SUCCESSOR和PREDECESSOR在最坏时间O（1）内完成，顺序统计树上的其他操作的渐进性能不受影响。
+直接在每个结点处增加两个属性，X.min和X.max,分别指向以X为根结点的统计树的最小和最大元素即可。插入和删除过程维护时间均为O（lgn）。
+
+14.2-2 能否在不影响红黑树任何操作的渐进性能的前提下，将结点的黑高作为树中结点的一个属性来维护？说明如何做，如果不能，请说明理由。如何维护结点的深度。
+如果为每个结点添加属性黑高X.bh，主要维护工作发生在插入和删除操作。
+插入操作中:
+先设定插入结点黑高z.bh，该过程操作时间为O（lgn）；
+然后对红黑树性质进行维护，每一次沿树上升操作，运行时间O（1），总上升运行时间O（lgn）。旋转过程不会影响黑高属性。
+总的额外维护时间为O（lgn）;
+删除操作中：
+其目的在于维护黑高平衡，因此最终结果要么导致本子树黑高恢复，要么导致黑高整体-1。当黑高整体-1时，需要对全体成员进行维护，因此运行时间为O（n）,高于原来的操作时间。
+因此，综合上述，无法做到。
+
+如果是增加结点深度属性，其维护操作发生在旋转过程，并对旋转过程中的位置发生变化的子树内的所有结点的深度属性进行修正，需要时间O（n）。
+
+14.2-3 题目太长略
+LEFT-ROTATE-MAINTAIN(X)
+{
+	Y = X.RIGHT;
+	Y.f = X.f;
+	X.f = X.left.f@X.a@Y.left.a//以@代替圈乘符号
+}
+操作时间O（1），右旋与此类似。
+
+14.2-4 希望设计一个操作RB-ENUMERATE(X,a,b)，来对红黑树进行扩张。该操作输出所有关键字k，使得在以X为根的红黑树中，有a<=k<=b。描述如何在θ（m+lgn）时间内实现RB-ENUMERATE,其中m为输出的关键字数目，n为树中的内部结点数。
+RB-ENUMERATE(X,a,b)
+{	
+	A.key = a;
+	B.key = b;
+	//只插入a,b，不对红黑树的性质进行维护,并记住A和B结点所在的最小子树，其根结点为K
+	I = X,J=X;
+	K = T.nil;
+	while(I!=T.nil||J!=T.NIL)
+	{
+		if(A.key >=I.key)
+			I = I.right;
+		if(A.key <I.key)
+			I = I.left;
+		if(B.key >=J.key)
+			J = J.right;
+		if(B.key <J.key)
+			J = J.left;
+		if(I!=J)
+			K = I.p;
+			Break;
+	}
+	if(K == T.nil)
+		return 0;
+	while(I!=T.nil||J!=T.NIL)
+	{
+		if(A.key >=I.key)
+			I = I.right;
+		if(A.key <I.key)
+			I = I.left;
+		if(B.key >=J.key)
+			J = J.right;
+		if(B.key <J.key)
+			J = J.left;
+
+	}
+	if(A.key >=I.key)
+		I.right = A;
+	if(A.key <I.key)
+		I.left = A;
+	if(B.key >=J.key)
+		J.right = B;
+	if(B.key <J.key)
+		J.left = B;	
+
+	//打印出从A到K内的所有结点；
+	Y = A；
+	while(Y != K)
+	{
+		if(Y.p.left == Y)
+			print Y.key;
+			INORDER-TREE-WALK(Y.RIGHT);//打印所有元素；
+		Y = Y.P;
+	}
+	print K.key;
+	Y = B;
+	while(Y != K)
+	{
+		if(Y.p.right == Y)
+			print Y.key;
+			INORDER-TREE-WALK(Y.left);//打印所有元素；
+		Y = Y.P;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
