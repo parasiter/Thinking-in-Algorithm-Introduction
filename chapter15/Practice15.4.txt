@@ -1,0 +1,93 @@
+15.4-1 求（1,0,0,1,0,1,0,1）和（0,1,0,1,1,0,1,1）的一个LCS。
+略
+
+15.4-2 设计伪代码，利用完整的表c及原始序列X = <x1,x2,...xm>和Y=<y1,y2,...ym>来重构LCS，要求运行时间为O（m+n），不能使用表b。
+RE-CONSTRUCT-PRINT-LCS(c,x,x.length,y.length)
+{
+	i=x.length;
+	j=y.length;
+	if(c[i,j]==0)
+		return ;
+	else{
+		if(c[i,j]>MAX(c[i-1,j-1],c[i-1,j],c[i,j-1]))
+		{
+			print	x[i];
+			RE-CONSTRUCT-PRINT-LCS(c,x,i-1,j-1);
+		}
+		else if(c[i-1,j]==MAX(c[i-1,j-1],c[i-1,j],c[i,j-1]))
+			RE-CONSTRUCT-PRINT-LCS(c,x,i-1,j);
+		RE-CONSTRUCT-PRINT-LCS(c,x,i,j-1);		
+} 
+
+15.4-3 设计LCS-LENGTH的带备忘版本，运行时间为O（mn）。
+MEMORIZED-LCS-LENGTH(X,Y)
+{
+	m = X.length;
+	n = Y.length;
+	array c[m][n];
+	for(i=0;i<=m;i++)
+		for(j=0;j<=n;j++)
+			if(i = 0 ||j = 0)
+				c[i][j]=0;
+			elese c[i][j] = -∞;
+	return MEMORIZED-LCS-LENGTH-AUX(c,X,Y,m,n);
+}
+MEMORIZED-LCS-LENGTH-AUX(c,X,Y,i,j)
+{
+	if[c[i][j]==0]
+		return;
+	if[c[i][j]>0]
+		return c[i][j];
+	else 
+	{
+		D = MEMORIZED-LCS-LENGTH-AUX(c,X,Y,i-1,j-1);
+		E = MEMORIZED-LCS-LENGTH-AUX(c,X,Y,i,j-1);
+		F = MEMORIZED-LCS-LENGTH-AUX(c,X,Y,i-1,j);
+		if(X[i]==Y[j])
+			c[i+1][j+1] == D+1;
+		else if(E == MAX(D,E,F))
+			c[i][j] == E;
+		else c[i][j] == F;
+	}
+}
+
+15.4-4 说明如何只用表c中2*min（m+n）个表项及O（1）的额外空间来计算LCS的长度。然后说明如何只用min(m,n)个表项及O（1）的额外空间完成相同的工作。
+选取序列较少的集合X,遍历X并用一个空间来保存长度length，即可获取LCS长度。
+
+15.4-5 设计一个O（n^2）时间的算法，求一个n个数的序列的最长单调递增子序列。
+对于求最长单调递增子序列问题，首先刻画最优解的结构特征：
+对于n个元素的数组S(n)，其递增子序列为C[Kn]，其最优解为S(n-1)的最优解C(Kn-1)+尾元素S[n]，并且S(n-1)的最优解C(Kn-1)可能存在多个！！
+if S[n]>MAX(C[Kn-1]),则将其添至C（Kn-1）的尾部；
+else if S[n]<MAX(C[Kn-1]),此时，S[n]的最优解可能为C(Kn-1)或C(Kn-2)+1。
+因此每当添加一个新元素X时，如果X大于MAX(C[K])时，必须复制出一个子序列，将X插入至该序列中，并丢弃X后的所有元素，形成一个新的递增子序列。（不能确定在后续添加元素时是否会以X为起点形成最长递增序列，因此每次添加元素，至少有一条序列包含X）。
+因此，最长递归子序列问题关键在于：对所有可能会增长为最长子序列均要进行维护。具体伪代码如下：
+MAX-INCREASE-SUBSEQUENCE(A,n)
+{
+	array c[n][n] // 最多有n个递增子序列，每个序列最多有n个元素。
+	for（i=1;i<=n;i++）
+	{
+		if(A[i]>=某些子序列的最大值)
+			向这些子序列添加该元素;
+		else 复制所有现有子序列，插入元素A[i]，并丢弃后面元素，从形成的所有序列中取出最长的一条，最为包含X的序列。
+	}
+        选取长度最长的子序列;
+}
+最多只存在n个递增子序列是因为只有在else的情况下才会使维护子序列的数目+1。
+渐进时间：
+外层循环n次，内层if操作会循环O（n）次，向所有满足条件的子序列添加A[i],else操作中复制，比较等操作均进行O（n）次，因此总时间为O(n^2)。
+
+15.4-6 设计一个O（nlgn）时间的算法，求一个n个数的序列的单调递增子序列。
+不会做。。。
+
+
+
+
+
+
+
+
+
+
+
+
+
