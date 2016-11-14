@@ -1,0 +1,35 @@
+15.5-1 设计伪代码CONSTRUCT-OPTIMAL-BST(root),输入表root，输出是最优二叉搜索树的结构。
+CONSTRUCT-OPTIMAL-BST(root)
+{
+	cout<<root[1,root.i.length]<<"为根"<<endl;	
+	return CONSTRUCT-TREE(root,1,n);	
+}
+CONSTRUCT-TREE(root,i,j)
+{
+   	k = root[i,j];
+	if(k.left!=T.nil)
+		cout<<CONSTRUCT-TREE(root,i,k-1)<<"为"<<k<<"的左孩子";
+	if(k.right!=T.nil)
+		cout<<CONSTRUCT-TREE(root,k-1,j)<<"为"<<k<<"的右孩子";
+	else if (k.left=T.nil&&k.right=T.nil)
+		return ;
+}
+
+15.5-2 若7个关键字的概率如下所示，求其最优二叉搜索树的结构和代价。
+略。
+
+15.5-3 假设OPTIMAL-BST不维护表w[i,j]，而是在第九行利用公式直接计算w[i,j],然后在第11行使用此值。如此改动会对渐进时间复杂性有何影响？
+如果改为直接用公式计算，需要进行O（n）次加法，最终渐进复杂度仍为O（n^3），只有常数项的变化。(w（i,j）也可看为一个简单的动态规划过程)
+
+15.5-4 Knuth已经证明，对所有1<=i<j<=n,存在最优二叉搜索树，其根满足root[i,j-1]<=root[i,j]<=root[i+1,j]。利用这一特性修改算法OPTIMAL-BST,使得运行时间减少为Θ(n^2)。
+从感觉上来看，运行时间的复杂度从n^3降为n^2，应该是依据给出的这条性质，去除了一层循环或使一层循环的复杂度降成了O（1）。
+最优二叉搜索树的子问题存在O（n^2）个，无法从此处下手，因此唯一能够更改的应该在于最内层循环。
+依据上述猜测，可以将第10行的代码改为：
+for r = root[i,j-1] to root[i+1,j]
+现在问题转变为如何证明该循环的循环次数为O（1）。
+满足root[i,j-1]<=root[i,j]<=root[i+1,j]性质的可以看做一个单调递增函数，其中i,j为横坐标X=(1,n)，选取的根结点root为纵坐标Y=(1,n)，
+问题变为[root[i,j-1],root[i+1,j]]取值范围为O(1)，即X-Y的函数的期望斜率为线性值。
+反正法证明：
+假设y = ax + b
+a = n^α，如果α>0，则当n = +∞时，x取值必定大于n，与题设矛盾。
+因此[root[i,j-1],root[i+1,j]]取值范围为O(1)
