@@ -1,0 +1,83 @@
+15.1（有向无环图中的最长简单路径）给定一个有向无环图G=（V,E），边权重为实数，给定图中两个顶点s和t。设计动态规划算法，求从s到t的最长加权简单路径。子问题图是怎样的？算法的效率如何？
+直接进行循环递归的方法如下：
+MAX-PATH(C,s,t) //数组C保存所有边的权值
+{
+	array E[n];//保存s到每个点的最长距离，E是个map
+	for(i=1;i<=n-1;i++);
+		E[i] = -∞；
+	E[0] = 0;//保存E[s] = 0;
+	adjust(s);
+	return E[t];
+}
+
+adjust(x)
+{
+	if(x.next != nil);
+	{	
+		for(i=1;i<=x.next.length;i++)
+		{	
+			E[x.next] = max(E[x]+C[x][x.next[i]],E[x.next]);
+			adjust(x.next[i]);
+		}
+	}
+}
+
+如果要以动态规划的方法解决问题，必须将该有向无环图组织成树的形式，以防止子问题的重复计算。（具体思路见Some_thoughts.doc）
+MAX-PATH(E,C,s,t)//数组E包含树的每层所有元素
+{
+	array B[n][n] = -∞;//保存从s到从b[i][j]的最长路径长度
+	for(j=1;j<=C[s.row+1].length;j++)
+	{
+		B[s.row+1][j] = LONGEST(s,C[s.row+1][j]);
+	}	
+	for(l=s.row+1;l<t.row-1;l++)
+	{
+		for(i=1;i<=C[l+1].length;i++)
+			for(j=1;j<=C[l].length;j++)
+			{
+				q = LONGEST(C[l][j],C[l+1][i])+B[l][j];
+				if(q>B[l+1][i])
+					B[l+1][i] = q;
+			}
+	}
+	for(j=1;j<=C[t.row-1].length;j++)
+	{
+		q = LONGEST(C[t.row-1][j],t)+B[t.row-1][j];
+		if(q>B[t.row][j])
+			B[t.row][t.col] = q;
+	}
+	return B;
+}
+longest(a,b)//返回相邻两层之内的结点a到b最大距离。E保存所有边的权值。可用类似于adjust的函数求值。
+
+15-2 （最长回文子序列） 回文是正序和逆序相同的非空字符串。设计高效算法，求给定输入字符串的最长回文子序列。例如，给定character，应返回carac。算法的运行时间如何？
+本题与求最长公共子序列问题类似，具有相同的子问题结构，共有n(n+1)/2个子问题。
+用数组c[i][j]来保存从i到j的最大回文序列长度。
+用数组d[i][j]来保存最大回文序列的位置（x,y）。
+伪代码如下：
+MAX-PALINDROME(A，n)
+{
+	array c[n][n],d[n][n];
+	for(i=1;i<=n;i++)
+		for(j=1;j<=n;j++)
+			if(i==j)
+				c[i][j] =1;
+			else c[i][j] = -∞;
+   	for(l=2;l<=n;l++)
+	{
+		for(i=1,i<=n-l+1;i++)
+		{
+			q = 0,p = 0;
+			j = i+l-1;
+			for(k = d[i+1][j].y+1;k<=j;k++)
+				if(A[i]==A[k])
+					c[i][j] == c[i+1][j]+1;
+					d[i][j] == (i,k);
+			for(m = d[i][j-1].x-1;m>=i;m--)
+				if(A[j]==A[m])
+					c[i][j] == c[i][j-1]+1;
+					d[i][j] == (k,j);
+		}
+	}
+	return c,d;
+}
