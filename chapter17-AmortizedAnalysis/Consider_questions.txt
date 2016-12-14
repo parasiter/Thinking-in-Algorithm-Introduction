@@ -164,8 +164,36 @@ h.Ö¤Ã÷£ºÈÎÒâm¸öRB-INSERT-FIXUPºÍRB-DELETE-FIXUP²Ù×÷¹¹³ÉµÄÐòÁÐ×î»µÇé¿öÏÂÖ´ÐÐO£¨m£
 a. Ö¤Ã÷£ºÈôÆô·¢Ê½²ßÂÔHÔ¤ÏÈ²»ÖªµÀ·ÃÎÊÐòÁÐ£¬ÄÇÃ´ÀûÓÃHÀ´´¦Àí·ÃÎÊÐòÁÐ¡ìµÄ×î»µÇé¿ö´ú¼ÛÎªCh£¨¡ì£©=¦¸£¨mn£©
 ÔÚ×î»µÇé¿öÏÂ£º¶ÔÓÚ¡ìÖÐµÄÃ¿¸öÔªËØµÄËÑË÷´ú¼Û¾ùm£¬Òò´Ë£¬×Ü´ú¼ÛÎªCh£¨¡ì£©=¦¸£¨mn£©
 
-b.Ö¤Ã÷£ºÈç¹û¡ì
+b.Ö¤Ã÷£ºÈç¹û¡ìiÊ¹ÓÃÒÆÖÁÇ°¶Ë²ßÂÔÔÚLÖÐ·ÃÎÊÔªËØx£¬Ôòci = 2*rankL£¨x£©-1
+Èç¹û¡ìiÊ¹ÓÃÒÆÖÁÇ°¶Ë²ßÂÔÔÚLÖÐ·ÃÎÊÔªËØx,ËÑË÷´ú¼ÛÎªrankL£¨x£©,²¢ÇÒÊ¹ÓÃrank£¨x£©-1´ÎÏàÁÚÔªËØÖÃ»»²Ù×÷ÊµÏÖÒÆÖÁÇ°¶Ë¡£
+Òò´Ë£¬Æä´ú¼ÛÎªci = 2*rankL£¨x£©-1
 
+c.ÔÚbÖÐÄãÖ¤Ã÷ÁËci = 2*rankL£¨x£©-1¡£ÏÖÔÚÖ¤Ã÷ci' = rankL'£¨x£©+ti'
+Ö¤Ã÷·½·¨Í¬B£¬ËÑË÷´ú¼ÛÎªrankL'£¨x£©£¬×ªÖÃ´ú¼ÛÎªti'¡£×Ü´ú¼Ûci' = rankL'£¨x£©+ti'
+
+d.Ö¤Ã÷£º×ªÖÃ²Ù×÷ÒªÃ´½«ÊÆÔö¼Ó2£¬ÒªÃ´¼õÉÙ2¡£
+×ªÖÃ²Ù×÷Ö»·¢ÉúÔÚÏàÁÚÔªËØÖ®¼ä£¬ÄæÐò¶ÔµÄ×ÜÊý±ä»¯Ö»·¢ÉúÔÚÕâÁ½¸öÔªËØÖ®¼ä£¬ÓëÆäËûÔªËØÎÞ¹Ø¡£Òò´Ë£¬Æä½á¹ûÒªÃ´Ê¹ÄæÐò¶Ô£«1£¬ÒªÃ´Ê¹ÄæÐò¶Ô-1,£¬¼´ÒªÃ´½«ÊÆÔö¼Ó2£¬ÒªÃ´¼õÉÙ2¡£
+
+e.Ö¤Ã÷£ºrankL(x)=|A|+|B|+1ÇÒrankL'£¨x£©=|A|+|C|+1¡£
+ÒÀÌâÒâ£¬A¡ÈB£ºÔÚLÖÐÎ»ÓÚxÖ®Ç°µÄÔªËØ£»A¡ÈC£ºÔÚL'ÖÐÎ»ÓÚxÖ®Ç°µÄÔªËØ¡£
+Òò´Ë£¬rankL(x)=|A|+|B|+1£¬rankL'£¨x£©=|A|+|C|+1
+
+f.Ö¤Ã÷£º´¦Àí·ÃÎÊ¡ìi»áÒýÆðÊÆµÄ±ä»¯£¬¦µ£¨Li£©-¦µ£¨Li-1£©<=2(|A|-|B|+ti'),ÆäÖÐti'±íÊ¾ÓÃÆô·¢Ê½²ßÂÔH´¦Àí·ÃÎÊ¡ìiÆÚ¼äÖ´ÐÐµÄ×ªÖÃ²Ù×÷´ÎÊý¡£
+Ê¹ÓÃÒÆÖÁÇ°¶Î²ßÂÔÊ±£¬³ýÁËÒª²éÕÒµÄÔªËØxÒÔÍâ£¬ÆäËûÔªËØÖ®¼äµÄÏà¶ÔÐò²»»á·¢Éú±ä»¯£¬Òò´Ë½ö¿¼ÂÇÔªËØxÓëÆäËûÔªËØµÄÏà¶ÔÐòÀ´ÅÐ¶ÏÊÆµÄ±ä»¯¡£
+Éè¦µ£¨Li-1£©=0£¬ÄÇÃ´ÔÚ½«xÒÆÖÁÊ×²¿ºó£¬Óëx´æÔÚÄæÐò¹ØÏµµÄÔªËØÎª0,ÔÚ´ËÖ®Ç°´æÔÚÄæÐò¶Ô|B|+|C|,Òò´Ë¦µ£¨Li£©=-2£¨|B|+|C|£©
+´øÈë²»µÈÊ½ÖÐ£¬±ä»»µÃ2|A|+2|C|+2ti'>=0,¼ÌÐø±ä»»µÃ2ci'-2>=0 
+¼´Ö¤Ã÷ci'>=1£¬rankL'(x)ÖÐ£¬ÖÁÉÙËÑË÷Ò»´Î£¬Òò´Ëci'>=1ÏÔÈ»³ÉÁ¢£¬Òò´Ë£¬¦µ£¨Li£©-¦µ£¨Li-1£©<=2(|A|-|B|+ti')³ÉÁ¢¡£
+
+g.Ö¤Ã÷£º´¦Àí·ÃÎÊ¡ìiµÄÌ¯»¹´ú¼ÛÉÏ½çÎª4ci'
+ci^ = ci+¦µ£¨Li£©-¦µ£¨Li-1£©<= 2*rankL£¨x£©-1+2(|A|-|B|+ti')
+    = 2(|A|+|B|+1)-1+2(|A|-|B|+ti')=4|A|+2ti'+1
+¼´Ö¤4|A|+2ti'+1<=4ci'
+=¡·4|A|+2ti'+1<=4£¨|A|+|C|+1£©+4ti'
+=¡·2ti'+4|C|+3>=0
+ti>=0,|C|>=0,Òò´ËµÈÊ½ÏÔÈ»³ÉÁ¢£¬Òò´Ë´¦Àí·ÃÎÊ¡ìiµÄÌ¯»¹´ú¼ÛÉÏ½çÎª4ci'
+
+h. Ö¤Ã÷£ºÊ¹ÓÃÒÆÖÁÇ°¶Ë²ßÂÔ´¦Àí·ÃÎÊÐòÁÐ¡ìµÄ´ú¼ÛCmtf(¡ì)ÖÁ¶àÊÇÆäËûÈÎºÎÆô·¢Ê½²ßÂÔH´¦Àí¡ìµÄ´ú¼ÛCh£¨¡ì£©µÄ4±¶¡£¼Ù¶¨Á½ÖÖÆô·¢Ê½²ßÂÔ¶¼ÊÇ´ÓÏàÍ¬µÄÁÐ±í¿ªÊ¼´¦Àí·ÃÎÊÐòÁÐ¡£
+ÒÆÖÁÇ°¶Î²ßÂÔÍ¬Ñù¿ÉÒÔ
 
 
 
