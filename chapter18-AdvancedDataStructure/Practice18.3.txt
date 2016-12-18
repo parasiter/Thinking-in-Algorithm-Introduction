@@ -1,0 +1,105 @@
+18.3-1 请说明依次从图18-8（f）中删除C,P和V后的结果。
+略。
+
+18.3-2 请写出B-TREE-DELETE的伪代码。
+B-TREE-DELETE过程主要分为两个过程：
+1、查找关键字过程，进行修改
+2、删除关键字过程，进行修改
+B-TREE-DELETE(T,k)
+{
+	//首先判断查找路径上，是否存在某结点的x.n = t-1，存在，则修改
+	x = T.root;
+	i = 1;
+	while(!x.leaf)
+	{
+		i = 1;
+		while(i<=x.n && x.keyi>k)
+			i++;
+		if(x.keyi == k)
+			break;
+		p = x.ci, q = x.ci+1, j = x.ci+2;
+		if(q.n == t-1)
+		{
+			if(p.n == t-1&& j.n ==t-1)
+			{
+				//合并p 和 q
+				p.n = 2t-1;
+				p.keyt = x.ci;
+				for(a=1;a<=t-1;a++)
+				{
+					p.key(t+a)=q.keya;
+					p.c(t+a)=q.ca;
+				}
+				p.c(2t) = q.ct;
+				//修改结点x
+				x.ci = p;
+				for(a=i+1;a<x.n;a++)
+					x.ca=x.ca+1;
+					x.keya = x.keya+1;
+				x.c(x.n) = x.c(n+1);
+				x.n = x.n-1;
+			}
+			else if(p.n>=t)
+			{
+				//将x.keyi移动至q中，将q.keyn移动至x.keyi
+				for(a=2;a<=q.n+1;a++)
+				{
+					q.keya=q.key(a-1);
+					q.ca=q.ca-1;
+				}
+				q.c(q.n+2) = q.c(q.n+1)
+				q.c1 = p.c(p.n+1);
+				q.key1 = x.ci;
+				x.keyi = p.key(p.n);
+				q.n = q.n+1;
+				p.n = p.n-1;
+			}
+			else if(j.n>=t)
+			{
+			//与上类似，此处略
+			}
+		}
+	x = x.c(i+1);
+	}
+	//找到关键字后进行修改,关键字为x.keyi。
+	while(true)
+	{
+		if(x.leaf)
+			delete(x.keyi);//修改操作与上面某些操作类似，略
+			break;
+		else{
+		if(x.ci.n ==t-1&&x.c(i+1).n == t-1)
+		{
+			p = x.ci,q = x.c(i+1);
+			//合并p 和 q
+			p.n = 2t-1;
+			p.keyt = x.ci;
+			for(a=1;a<=t-1;a++)
+			{
+				p.key(t+a)=q.keya;
+				p.c(t+a)=q.ca;
+			}
+			p.c(2t) = q.ct;
+			//修改结点x
+			x.ci = p;
+			for(a=i+1;a<x.n;a++)
+				x.ca=x.ca+1;
+				x.keya = x.keya+1;
+			x.c(x.n) = x.c(n+1);
+			x.n = x.n-1;
+			x = p;
+			i = t;
+		}
+		elseif(x.ci.n >=t)
+		{
+			x.keyi = x.ci.key(x.n);
+			x = x.ci;
+			i = x.ci.n;
+		}
+		else{
+			x.keyi = x.c(i+1).key1;
+			x= x.c(i+1);
+			i=1;	
+		}
+	}				
+}
