@@ -27,4 +27,24 @@ b.(¶þÏî¶Ñ)ÐÔÖÊÓÐ1.Ã¿¸ö½áµã¾ßÓÐÒ»¸ö¹Ø¼ü×Ö 2.HÖÐÃ¿¸ö¶þÏîÊ÷×ñÑ­×îÐ¡¶ÑÐÔÖÊ 3.¶ÔÓÚÈÎÒ
 ¼Ù¶¨Ò»¸ö¶þÏî¶ÑHÒ»¹²ÓÐn¸ö½áµã¡£ÌÖÂÛHÖÐ°üº¬µÄ¶þÏîÊ÷ÓënµÄ¶þ½øÖÆ±íÊ¾Ö®¼äµÄ¹ØÏµ¡£²¢Ö¤Ã÷H×î¶àÓÉsub(lgn)+1¿Ã¶þÏîÊ÷×é³É¡£
 ÏÔÈ»£¬ÒÀ¾ÝÐÔÖÊ£¬¶þ²æ¶ÑµÄÊ÷¿ÉÒÔÓÃnµÄ¶þ½øÖÆ±íÊ¾£¬Î»i±íÊ¾ÊÇ·ñ´æÔÚ¸ÃÊ÷£¬¸ÃÊ÷µÄ½áµãÊýÎª2^(i-1)¡£Òò´ËÃ¿²åÈëÒ»¸ö½áµã£¬±ØÈ»´æÔÚÒ»¸ö¶þ½øÖÆÀ´±íÊ¾¶þ²æ¶ÑµÄÇé¿ö¡£sub(lgn)+1¿ÉÒÔ±íÊ¾nµÄ¶þ½øÖÆÎ»Êý£¬Ò²¿ÉÒÔ±íÊ¾Ê÷µÄ×î´óÊýÄ¿¡£
 
-c. ÍêÕû
+c. ÍêÕûÃèÊöÈçºÎ±íÊ¾Ò»¸ö¶þÏî¶Ñ£¨ÀýÈç£¬¶ÔÊôÐÔ½øÐÐÃüÃû£¬ÃèÊöÊôÐÔÖµÊ²Ã´Ê±ºòÎªNIL£¬¶¨Òå¸ùÁ´±íÊÇÈçºÎ×éÖ¯µÄ£©£¬²¢ËµÃ÷Ã¿Ò»¸ö²Ù×÷µÄ×î»µÊ±¼äÓ¦¸ÃÎªO£¨lgn£©£¬ÆäÖÐnÎª¶þÏî¶ÑÖÐµÄ½áµãÊýÄ¿£¨»ò¶ÔÓÚUNION²Ù×÷£¬ÎªºÎÒª±»ºÏ²¢µÄÁ½¸ö¶þÏî¶ÑÖÐµÄ½áµãÊý£©¡£MAKE-HEAP²Ù×÷Ó¦Îª³£ÊýÊ±¼ä¡£
+Ã¿¸ö½áµã´¢´æ3¸öÖ¸Õë£ºx.p, x.child, x.brother¡£Á½¸öÖµ:x.key, x.degree¡£
+MAKE-HEAP():´´ÔìºÍ·µ»ØÒ»¸öÐÂµÄ²»º¬ÈÎºÎÔªËØµÄ¶Ñ¡£Ì¯»¹Ê±¼äO£¨1£©¡£
+INSERT(H,x):½«Ò»¸öÒÑÌîÈë¹Ø¼ü×ÖµÄÔªËØx²åÈë¶ÑHµÄ¸ùÁ´±íÖÐ£¬È»ºó½øÐÐºÏ²¢¡£ÆäÌ¯»¹´ú¼ÛÓë¶þ½øÖÆ¼ÆÊýÆ÷Ì¯»¹´ú¼ÛÏàÍ¬£¬ÎªO£¨1£©¡£
+MINIMUM(H):±éÀú¸ùÁ´±í£¬ÕÒ³ö×îÐ¡ÔªËØ£¬×î¶à´æÔÚO£¨lgn£©¸ö¸ù½áµã£¬Òò´Ë²Ù×÷´ú¼Û×î»µÎªO£¨lgn£©
+EXTRACT-MIN(H):ÕÒµ½×îÐ¡ÔªËØ£¬´ú¼ÛO£¨lgn£©,½«ËùÓÐk£¨lgn£©¸ö×Ó½áµã·ÅÈë¸ùÁ´±í£¬±éÀú¸ùÁ´±í£¬½øÐÐºÏ²¢£¬»¨·ÑÊ±¼äÎªO£¨lgn£©
+UNION(H1,H2):ºÏ²¢Á½¸ö¶þÏî¶Ñ£¬Á¬½Ó¸ùÁ´±í£¬Î¬»¤ÊôÐÔ3£¬ÐèÒª±éÀúÕû¸ö¸ùÁ´±í£¬´ú¼ÛÎªO£¨max(lgn1,lgn2))
+DECREASE-KEY(H,x,k):Ö±½ÓÎ¬»¤±¾¶þÏîÊ÷¼´¿É£¬ÒòÎªÊ÷¸ß×î¸ßÎªlgn¡£
+DELETE(H,x):ÓëÉÏÏàÍ¬£¬´ú¼Ûlgn¡£
+
+d.¼Ù¶¨½ö½öÒªÊµÏÖÔÚÒ»¸öì³²¨ÄÇÆõ¶ÑÉÏµÄ¿ÉºÏ²¢²Ù×÷£¨¼´²¢²»ÊµÏÖDRECRESE-KEYºÍDELETE²Ù×÷£©¡£ì³²¨ÄÇÆõ¶ÑÖÐµÄÊ÷Óë¶þÏî¶ÑÖÐµÄÊ÷ÓÐºÎÏàËÆÖ®´¦£¿ÓÐÊ²Ã´Çø±ð£¿Ö¤Ã÷ÔÚÒ»¸ön¸ö½áµãµÄì³²¨ÄÇÆõ¶ÑÖÐµÄ×î´ó¶ÈÊý×î¶àÎªlgn¡£
+ì³²¨ÄÇÆõ¶ÑÖÐµÄÊ÷£¬Ï£ÍûÒ»ÇÐ²Ù×÷¶¼ÔÚ¸ù½áµãÉÏ½â¾ö£¬ÒòÎª¸ù½áµãµÄÊýÄ¿ÉÏÏÞÎªO£¨lgn£©,Òò´Ë¸÷ÖÖ²Ù×÷µÄ´ú¼Û¶¼»ùÓÚ´Ë£¬ÎªO(lgn)¡£¶ø¶þÏî¶ÑÖÐµÄÊ÷²»µ«¸ù½áµãÊýÄ¿ÉÏÏÞÎªO(lgn),ÇÒÆäÊ÷¸ßÎªÎªk£¬n = 2^k£¬Òò´Ëk = lgn¡£Òò´Ë¶þÏî¶ÑµÄÊ÷¸ßÒ²Îªlgn¡£
+ì³²¨ÄÇÆõ¶ÑµÄ×î´ó¶ÈÊýÎªk-1,ÇÒk = lgn£¬Òò´Ë×î´ó¶ÈÊý×î¶àÎªlgn¡£
+
+e.McGee½ÌÊÚÌá³öÁËÒ»¸ö»ùÓÚì³²¨ÄÇÆõ¶ÑµÄÐÂµÄÊý¾Ý½á¹¹¡£Ò»¸öMcGee¶Ñ¾ßÓÐÓëì³²¨ÄÇÆõÏàÍ¬µÄ½á¹¹£¬²¢ÇÒÖ»Ö§³Ö¿ÉºÏ²¢¶Ñ²Ù×÷¡£³ýÁË²åÈëºÍºÏ²¢ÔÚ×îºóÒ»²½ÖÐºÏ²¢¸ùÁ´±íÍâ£¬ÆäËû²Ù×÷µÄÊµÏÖ·½Ê½¾ùÓëì³²¨ÄÇÆõ¶ÑÖÐµÄÊµÏÖ·½Ê½ÏàÍ¬¡£McGee¶ÔÉÏ¸÷²Ù×÷µÄ×î»µÇé¿öÔËÐÐÊ±¼äÊÇ¶àÉÙ£¿
+Èç¹ûÔÚ²åÈë²Ù×÷ºóÒª½øÐÐºÏ²¢¸ùÁ´±í£¬ÄÇÃ´²åÈë²Ù×÷µÄ´ú¼ÛÎªO£¨lgn£©¡£
+Èç¹ûÔÚºÏ²¢²Ù×÷ºóÒª½øÐÐºÏ²¢¸ùÁ´±í£¬ÄÇÃ´ºÏ²¢¶Ñ²Ù×÷µÄ´ú¼ÛÎªO£¨lgn1+lgn2)£©
+ÆäËû²Ù×÷´ú¼ÛÏàÍ¬
+
+19-3£¨¸ü¶àµÄì³²¨ÄÇÆõ¶Ñ²Ù×÷£©ÏëÒªÍØÕ¹ì³²¨ÄÇÆõ¶ÑHÖ§³ÖÁ½¸öÐÂ²Ù×÷£¬ÒªÇó²»¸Ä±äì³²¨ÄÇÆõ¶ÑÆäËû²Ù×÷µÄÌ¯»¹Ê±¼ä¡£
+a.²Ù×÷FIB-HEAP-CHANGE-KEY(H,x,k)½«½áµãxÖÐµÄ¹Ø¼ü×ÖµÄÖµ¸ÄÎªk¡£¸ø³öFIB-HEAP-CHANGE-KEYµÄÒ»¸öÓÐÐ§ÊµÏÖ£¬²¢·ÖÎök´óÓÚ¡¢Ð¡ÓÚ»òµÈÓÚx.keyÊ±£¬¸÷ÇéÐÎÏÂµÄÌ¯»¹Ê±¼ä¡£
