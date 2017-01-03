@@ -29,3 +29,85 @@ PROTO-vEB-PROCESSOR(V,x)
 			else offset =PROTO-vEB-MINIMUM(V.cluster[pro-cluster])
 				return index(pro-cluster,offset)
 }
+
+20.2-2 写出PROTO-vEB-DELETE的伪代码。通过扫描簇内的相关位，来更新相应的summary位。并且你实现的伪代码最坏运行时间是多少？
+首先为每个proto-vEB结构增加属性n，保存本簇内元素个数。
+PROTO-vEB-DELETE(V,x)
+{
+	if(V.n == 0)
+		return NIL;
+	else V.n == V.n-1;
+	if V.u == 2;
+		V.A[x] = 0;
+	return V.n
+	else n = PROTO-vEB-DELETE(V.cluster[high(x)],low(x))
+		if(n==NIL)
+			return NIL;
+		elseif(n==0)
+			n = PROTO-vEB-DELETE(V.summary,high(x))
+				return n;
+		return n;
+}
+代码运行时间与INSERT操作相同，但直觉其摊还时间应少于INSERT.
+我擦，题目没看清楚，直接做成了20.2-3的结果。。。。。
+
+20.2-3 为每个proto-vEB结构增加属性n，以给出其所在集合中的元素个数，然后写出PROTO-vEB-DELETE的伪代码，要求使用属性n来确定何时将summary重置为0。你的伪代码的最坏情况运行时间是多少？由于加入了新的属性n，其他操作要改变吗？这些变化会影响到它们的运行时间吗？
+见上题。
+
+20.2-4 修改proto-vEB结构，以支持重复关键字。
+将proto-vEB结构进行修改，拓宽关键字的值域。插入操作更改为:
+PROTO-vEB-INSERT(V,x)
+{
+	if V.u ==2
+		V.A[x]==V.A[x]+1;
+	V.n = V.n+1
+	return V.n;
+	else n = PROTO-vEB-INSERT(V.cluster[high(x)],low(x))
+		if(n==1)     // 确保何时才对summary属性进行更改！！
+			n = PROTP-vEB-INSERT(V.summary,high(x))
+			return n;
+		else return n;
+}
+
+其他操作修改略。
+
+20.2-5 修改proto-vEB结构，使其支持带有卫星数据的关键字。
+直接最底层基础结构更改为指针即可，否则为NIL。
+
+20.2-6 写出一个创建proto-vEB（u）结构的伪代码
+//此处其实可以构建额外的一个数据结构base作为最底层的结构
+struct PROTO-vEB(x)
+{
+	u  
+	n 
+ 	cluster
+	summary
+	A[]
+}
+
+proto-vEB(u)
+{
+	if(u = 2)
+		V.cluster[] =NIL;
+		V.summary =NIL;
+		V.u = 2
+		V.A[] = [0,0]
+		V.n = NIL
+	else{
+		V.n = sqrt(u)
+		V.u = u 
+		for(i=1;i<=n;i++)
+		{
+			V.cluster[i] = proto-vEB(n);
+		}
+		V.summary = proto-vEB(n);
+		A[] = NIL;
+}
+20.2-7 试说明如果PROTO-vEB-MINIMUM中的第9行被执行，则proto-vEB结构为空。
+第一次返回NIL时，即说明该簇中不存在元素，即为空集，然后依据7~9行，会将NIL不断返回，直至递归结束。因此proto-vEB结构为空。
+
+20.2-8 假设设计了这样一个proto-vEB结构，其中每个簇数组仅有u^1/4个元素。那么每个操作的运行时间是多少？
+操作时间与树高相关，(u^1/4)^h = 2, h = log4log2(u) = O（lglgu）
+因此每个操作的渐进运行时间没有发生变化。
+
+
